@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'GeneratorController@viewHome');
+
+Route::get('/test', function() {
+    dd(\App\Section::get());
 });
