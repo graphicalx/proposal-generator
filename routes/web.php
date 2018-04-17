@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', 'GeneratorController@viewHome');
+Route::get('/', 'GeneratorController@viewHome')->name('home');
+Route::post('/section/{section}/piece/add', 'PieceController@addAjax')->name('addPiece');
 
 Route::get('/test', function() {
     dd(\App\Section::with('pieces')->get());
