@@ -26,7 +26,7 @@ class CreateSectionsTableAndPiecesTable extends Migration
             $table->increments('id');
             $table->integer('section_id')->unsigned()->index();
             $table->text('text');
-            $table->smallInteger('priority');
+            $table->smallInteger('priority')->default(100);
             $table->boolean('is_active')->default(true);
 
             $table->timestamps();
@@ -43,6 +43,15 @@ class CreateSectionsTableAndPiecesTable extends Migration
             ['name' => 'Top Rated', 'order' => 500, 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'Contact/Closing', 'order' => 600, 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'Ending', 'order' => 700, 'created_at' => $now, 'updated_at' => $now],
+        ]);
+
+        \App\Section::where('name', 'Greeting')->first()->pieces()->createMany([
+            ['text' => 'Hi,', 'priority' => '300'],
+            ['text' => 'Hello,', 'priority' => '200'],
+        ]);
+
+        \App\Section::where('name', 'Contact/Closing')->first()->pieces()->createMany([
+            ['text' => 'Let\'s discuss this over a call', 'priority' => '100'],
         ]);
     }
 

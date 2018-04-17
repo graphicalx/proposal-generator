@@ -31,7 +31,8 @@
             <div class="radio">
                 <label>
                     <input type="radio" name="radio{{ $section->id }}" id="radio{{ $section->id }}custom" value="**custom{{ $section->id }}" v-model="section[{{ $section->id }}]">
-                    <textarea class="form-control" rows="3" cols="100" id="textarea{{ $section->id }}" v-model="custom[{{ $section->id }}]" onclick="$(this).prev().click();"></textarea>
+                    <textarea class="form-control autoexpand" rows="2" cols="50" id="textarea{{ $section->id }}" v-model="custom[{{ $section->id }}]" onclick="$(this).prev().click(); $(this).prop('cols', 70).prop('rows', 5);"></textarea>
+
                 </label>
             </div>
         @endforeach
@@ -42,12 +43,13 @@
 
         <h2>Proposal</h2>
 
-        <textarea class="form-control" rows="10">@{{ proposal }}</textarea>
+        <textarea class="form-control autoexpand" rows="5" onclick="this.select();">@{{ proposal }}</textarea>
     </div>
 
     <br><br>
 
     <script>
+
         var genApp = new Vue({
             el: '#generatorApp',
 
