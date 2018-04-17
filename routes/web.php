@@ -14,5 +14,5 @@
 Route::get('/', 'GeneratorController@viewHome');
 
 Route::get('/test', function() {
-    dd(\App\Section::get());
+    dd(\App\Section::with('pieces')->get());
 });

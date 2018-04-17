@@ -21,7 +21,6 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     {{--<script src="{{ asset('js/vue.min.js') }}"></script>--}}
     <script src="https://unpkg.com/vue"></script>
-    <script src="{{ asset('js/jquery.are-you-sure.js') }}"></script>
 
     <!-- Optional theme -->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
