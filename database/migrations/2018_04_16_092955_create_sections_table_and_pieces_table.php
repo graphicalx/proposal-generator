@@ -19,6 +19,7 @@ class CreateSectionsTableAndPiecesTable extends Migration
             $table->smallInteger('order');
             $table->boolean('is_active')->default(true);
 
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -29,6 +30,7 @@ class CreateSectionsTableAndPiecesTable extends Migration
             $table->smallInteger('priority')->default(100);
             $table->boolean('is_active')->default(true);
 
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('section_id')->references('id')->on('sections');

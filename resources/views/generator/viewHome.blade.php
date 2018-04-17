@@ -24,6 +24,7 @@
                     <label>
                         <input type="radio" name="radio{{ $section->id }}" id="radio{{ $section->id }}" value="{{ $piece->text }}" v-model="section[{{ $section->id }}]">
                         {!! strlen($piece->text) > 300 ? nl2br(e(substr($piece->text, 0, 300))) . '...' : nl2br(e($piece->text)) !!}
+                        <small><a href="" @click.prevent="deletePiece" data-id="{{ $piece->id }}" data-section-id="{{ $section->id }}">x</a></small>
                     </label>
                 </div>
             @endforeach
@@ -32,7 +33,7 @@
                 <label>
                     <input type="radio" name="radio{{ $section->id }}" id="radio{{ $section->id }}custom" value="**custom{{ $section->id }}" v-model="section[{{ $section->id }}]">
                     <textarea class="form-control autoexpand" rows="2" cols="50" id="textarea{{ $section->id }}" v-model="custom[{{ $section->id }}]" onclick="$(this).prev().click(); $(this).prop('cols', 70).prop('rows', 5);"></textarea>
-                    <span id="customSaveSpan{{ $section->id }}" v-if="this.custom[{{ $section->id }}] != ''"><a href="" @click.prevent="saveCustomText" data-id="{{ $section->id }}">Save this custom text</a></span>
+                    <span id="customSaveSpan{{ $section->id }}" v-show="this.custom[{{ $section->id }}] != ''"><a href="" @click.prevent="saveCustomText" data-id="{{ $section->id }}">Save this custom text</a></span>
                 </label>
             </div>
         @endforeach
@@ -43,7 +44,7 @@
 
         <h2>Proposal</h2>
 
-        <textarea class="form-control autoexpand" rows="20" onclick="this.select();">@{{ proposal }}</textarea>
+        <textarea class="form-control autoexpand" rows="20"{{-- onclick="this.select();"--}}>@{{ proposal }}</textarea>
     </div>
 
     <br><br>
@@ -73,6 +74,9 @@
 
             methods: {
                 saveCustomText: function(e) {
+
+                    jQuery(e.target).hide();
+
                     var sectionId = e.target.dataset.id;
                     var customText = this.custom[sectionId];
                     jQuery.ajax({
@@ -87,9 +91,31 @@
                             jQuery('#customSaveSpan' + sectionId).text('Saved!');
                         },
                         error: function(data) {data=data.responseJSON;
+                            jQuery(e.target).show();
                             if (data.errors != undefined && data.errors.text != undefined) {
                                 jQuery('#customSaveSpan' + sectionId).text(data.errors.text.join(' - '));
                             }
+                        }
+                    });
+                },
+
+                deletePiece: function(e) {
+                    var pieceId = e.target.dataset.id;
+                    // TODO open, if a selected piece is deleted, the empty option should be selected instead
+                    jQuery(e.target).hide();
+
+                    jQuery.ajax({
+                        method: 'post',
+                        url: '/piece/' + pieceId + '/remove',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(data) {
+                            jQuery(e.target).parents('.radio').text('Removed!');
+                        },
+                        error: function(data) {
+                            jQuery(e.target).show();
                         }
                     });
                 }
